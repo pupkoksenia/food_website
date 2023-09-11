@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
-export const useFirebaseConfig = defineStore({
-  id: 'firebaseConfig',
+export const useFirebaseConfigStore = defineStore({
+  id: 'firebaseConfigStore',
   state: () => ({
     firebaseConfig: {
       apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
