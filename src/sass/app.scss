@@ -1,0 +1,15 @@
+// Bootstrap
+@import '../../node_modules/bootstrap/scss/bootstrap';
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+
+$font-stack:    Helvetica, sans-serif;
+$primary-color: black;
+
+#app {
+    height: 100vh;
+    font-family: Avenir, $font-stack;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: $primary-color;
+  }
