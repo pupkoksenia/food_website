@@ -7,12 +7,17 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'home',
     component: MainPage,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, transition: 'slide-left' }
   },
   {
     path: '/login',
     name: 'login',
     component: () => import('../pages/LoginPage.vue')
+  },
+  {
+    path: '/loader',
+    name: 'loader',
+    component: () => import('../components/kits/LoaderComponent.vue')
   }
 ]
 

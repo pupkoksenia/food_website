@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue'
 
 import {
-  signInWithEmailAndPassword, getAuth, createUserWithEmailAndPassword
+  signInWithEmailAndPassword, getAuth, createUserWithEmailAndPassword, onAuthStateChanged
 } from 'firebase/auth'
 import { collection, getDocs, setDoc, doc } from 'firebase/firestore'
 import { db } from '../main'
@@ -82,5 +82,23 @@ export const useFirebaseConfigAuthStore = defineStore('firebaseConfigAuthStore',
         }
       })
 
-  return { stateUser, signInFirebase, registerFirebase, isLoading }
+  const isAuthenticated = (path: string) =>
+    new Promise((resolve, reject) => {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          stateUser.email = user.email
+          stateUser.uid = user.uid
+          stateUser.isAuthenticated = true
+          resolve(stateUser.isAuthenticated)
+        } else reject(stateUser.isAuthenticated)
+      })
+    })
+      .then(() => {
+        return { path: path }
+      })
+      .catch(() => {
+        return { path: '/sign-in' }
+      })
+
+  return { stateUser, signInFirebase, registerFirebase, isLoading, isAuthenticated }
 })
