@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue'
 
 import {
-  signInWithEmailAndPassword, getAuth, createUserWithEmailAndPassword, onAuthStateChanged
+  signInWithEmailAndPassword, getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut
 } from 'firebase/auth'
 import { collection, getDocs, setDoc, doc } from 'firebase/firestore'
 import { db } from '../main'
@@ -13,12 +13,7 @@ import {
   INCORRECT_PASSWORD,
   INCORRECT_PASSWORD_EMAIL
 } from '../constants/index'
-
-export interface StateUser {
-      email: string | null
-      uid: string
-      isAuthenticated: boolean
-  }
+import { StateUser } from '@/types'
 
 export const useFirebaseConfigAuthStore = defineStore('firebaseConfigAuthStore', () => {
   const stateUser = reactive<StateUser>({
@@ -100,5 +95,13 @@ export const useFirebaseConfigAuthStore = defineStore('firebaseConfigAuthStore',
         return { path: '/sign-in' }
       })
 
-  return { stateUser, signInFirebase, registerFirebase, isLoading, isAuthenticated }
+  const signOutFirebase = () => {
+    signOut(auth).then(() => {
+      stateUser.email = ''
+      stateUser.uid = ''
+      stateUser.isAuthenticated = false
+    })
+  }
+
+  return { stateUser, signInFirebase, registerFirebase, isLoading, isAuthenticated, signOutFirebase }
 })
