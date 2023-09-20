@@ -45,6 +45,7 @@ export default defineComponent({
       default: () => ({})
     }
   },
+  emits: ['setComment'],
   components: {
     InputComponent,
     ButtonComponent
@@ -52,7 +53,7 @@ export default defineComponent({
   setup (props, ctx) {
     const comment = ref('')
     const onSubmit = () => {
-      // console.log(comment.value)
+      ctx.emit('setComment', comment.value)
     }
     return { comment, onSubmit }
   }

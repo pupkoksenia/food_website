@@ -35,7 +35,7 @@
         <div class="card-body">
           <p class="card-text">{{ recipe.description }}</p>
         </div>
-        <CommentsComponent :comments="recipe.comments" />
+        <CommentsComponent :comments="recipe.comments" @setComment = setComment />
       </div>
     </template>
 </ModalWindow>
@@ -43,10 +43,12 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { Category } from '../../../types/index'
+import { Category, Comment, Recipe } from '../../../types/index'
 import ButtonComponent from '../../kits/ButtonComponent.vue'
 import ModalWindow from '../../kits/ModalWindow.vue'
 import CommentsComponent from './CommentsComponent.vue'
+import { useFirebaseConfigAuthStore } from '@/stores/firebaseConfigAuth'
+import { useFirebaseConfigRecipesStore } from '@/stores/firebaseConfigRecipes'
 
 export default defineComponent({
   name: 'RecipeRow',
@@ -69,7 +71,19 @@ export default defineComponent({
     const openModalWindow = () => {
       isOpen.value = true
     }
-    return { isOpen, closeModalWindow, openModalWindow }
+    const store = useFirebaseConfigAuthStore()
+    const recipeStore = useFirebaseConfigRecipesStore()
+
+    const setComment = (value: string) => {
+      const updatedRecipe = props.recipe
+      const newComment: Comment = {
+        user: store.stateUser.email,
+        text: value
+      }
+      updatedRecipe.comments.push(newComment)
+      recipeStore.updateRecipe(updatedRecipe)
+    }
+    return { isOpen, closeModalWindow, openModalWindow, setComment }
   }
 })
 </script>

@@ -10,8 +10,8 @@ export interface Ingredient {
 }
 
 export interface Comment {
-    user: string
-    text: string
+    user: string | null
+    text: string | null
 }
 
 export interface Category {

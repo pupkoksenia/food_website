@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { collection, getDocs, doc, setDoc } from 'firebase/firestore'
 import { db } from '../main'
 // import { Timestamp } from 'firebase/firestore'
-import { Recipes } from '@/types'
+import { Recipes, Recipe } from '@/types'
 
 export const useFirebaseConfigRecipesStore = defineStore('firebaseConfigRecipesStore', () => {
   const recipes = reactive<Recipes>({
@@ -25,5 +25,7 @@ export const useFirebaseConfigRecipesStore = defineStore('firebaseConfigRecipesS
       })
     })
 
-  return { recipes, getAllRecipes }
+  const updateRecipe = (recipe: any) => setDoc(doc(db, 'recipes', recipe.id.toString()), recipe)
+
+  return { recipes, getAllRecipes, updateRecipe }
 })
