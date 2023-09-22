@@ -23,7 +23,6 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue'
 import { useFirebaseConfigRecipesStore } from '../../../stores/firebaseConfigRecipes'
-import { useFirebaseConfigCategoriesStore } from '../../../stores/firebaseConfigCategories'
 import { useFirebaseConfigUsersStore } from '../../../stores/firebaseConfigUsers'
 import RecipeRow from './RecipeRow.vue'
 
@@ -34,21 +33,17 @@ export default defineComponent({
   },
   setup () {
     const storeRecipes = useFirebaseConfigRecipesStore()
-    const storeCategories = useFirebaseConfigCategoriesStore()
     const storeUsers = useFirebaseConfigUsersStore()
 
     onMounted(() => {
       storeRecipes.getAllRecipes().then(() => {
         // console.log(storeRecipes.recipes.data)
       })
-      storeCategories.getAllCategories().then(() => {
-        // console.log(storeCategories.categories)
-      })
       storeUsers.getAllUsers().then(() => {
         // console.log(storeUsers.users)
       })
     })
-    return { storeRecipes, storeCategories, storeUsers }
+    return { storeRecipes, storeUsers }
   }
 })
 </script>
